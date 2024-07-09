@@ -13,8 +13,8 @@ PASSWORD="your-password"
 JSON_FILE=$(curl -s -u "$USERNAME:$PASSWORD" "$NEXUS_URL/service/rest/v1/search/assets?repository=$REPOSITORY&group=$GROUP_ID&name=$ARTIFACT_ID&version=$VERSION")
 
 # Parse JSON and extract versionName and versionCode
-VERSION_NAME=$(echo "$JSON_FILE" | jq -r '.items[0].maven2.version')
-VERSION_CODE=$(echo "$JSON_FILE" | jq -r '.items[0].maven2.extension')
+VERSION_NAME=$(echo "$JSON_FILE" | grep -oP '"version"\s*:\s*"\K[^"]*')
+VERSION_CODE=$(echo "$JSON_FILE" | grep -oP '"extension"\s*:\s*"\K[^"]*')
 
 # Check if values are extracted successfully
 if [ -z "$VERSION_NAME" ] || [ -z "$VERSION_CODE" ]; then
