@@ -1,0 +1,76 @@
+Here's a Python rewrite of the `parse_plist_file` and `decode` functions based on the shell script in the image:
+
+```python
+import os
+import subprocess
+import re
+
+SOURCE_SYMBOL_FILE = "your_source_symbol_file_path_here"
+DYNATRACE_SYMBOL_FILE = "your_dynatrace_symbol_file_path_here"
+SIGNATURE = "your_signature_here"
+CLIENT_SCRIPT = "your_client_script_path_here"
+
+def parse_plist_file():
+    if not os.path.exists(f"build/{SOURCE_SYMBOL_FILE}"):
+        print(f"Missing file - build/{SOURCE_SYMBOL_FILE}.")
+        exit(1)
+    else:
+        # Using subprocess to run shell commands
+        cmd = f"unzip -p build/{SOURCE_SYMBOL_FILE} AccountManager.app.dSYM/Contents/Info.plist | grep -A 1 CFBundleVersion | grep string | sed 's/.*<string>\(.*\)<\/string>.*/\\1/'"
+        APP_VERSION_NAME = subprocess.check_output(cmd, shell=True).decode().strip()
+        
+        cmd = f"unzip -p build/{SOURCE_SYMBOL_FILE} AccountManager.app.dSYM/Contents/Info.plist | grep -A 1 CFBundleIdentifier | grep string | sed 's/.*<string>\(.*\)<\/string>.*/\\1/'"
+        APP_PACKAGE_NAME = subprocess.check_output(cmd, shell=True).decode().strip()
+        
+        # Dynatrace rejects package names with the following prefix, so the following trims it off if found
+        if APP_PACKAGE_NAME.startswith("com.apple.xcode.dsym."):
+            APP_PACKAGE_NAME = APP_PACKAGE_NAME.replace("com.apple.xcode.dsym.", "", 1)
+        
+        return APP_VERSION_NAME, APP_PACKAGE_NAME
+
+def decode():
+    APP_VERSION = parse_plist_file()[0]  # Getting APP_VERSION_NAME from parse_plist_file
+    print(f"{SIGNATURE}: Decoding {RELEASE_TRAIN} debug symbols (App version: {APP_VERSION})")
+    
+    result = subprocess.run([CLIENT_SCRIPT, "-decode", f"symbolsFile=build/{SOURCE_SYMBOL_FILE}", "outdir=build"], capture_output=True, text=True)
+    
+    if result.returncode != 0:
+        print(f"{SIGNATURE}: Error decoding debug symbols ({result.stderr})")
+        exit(3)
+    
+    # Calculate SHA256 of the DYNATRACE_SYMBOL_FILE
+    sha256_cmd = f"shasum -a 256 build/{DYNATRACE_SYMBOL_FILE} | cut -f 1 -d ' '"
+    DYNATRACE_SYMBOL_SHA256 = subprocess.check_output(sha256_cmd, shell=True).decode().strip()
+
+# You would need to implement or import the read_api_token function
+def read_api_token():
+    # Implementation of read_api_token goes here
+    pass
+
+# Call the functions
+parse_plist_file()
+decode()
+read_api_token()
+```
+
+This Python code does the following:
+
+1. It imports necessary modules: `os`, `subprocess`, and `re`.
+
+2. The `parse_plist_file` function:
+   - Checks if the source symbol file exists.
+   - Uses `subprocess` to run shell commands that extract the app version and package name from the plist file.
+   - Trims the package name if it starts with "com.apple.xcode.dsym.".
+
+3. The `decode` function:
+   - Calls `parse_plist_file` to get the app version.
+   - Uses `subprocess` to run the decoding script.
+   - Calculates the SHA256 hash of the Dynatrace symbol file.
+
+4. The `read_api_token` function is left as a placeholder for you to implement.
+
+Note that this code assumes you're running it on a Unix-like system (macOS or Linux) due to the use of shell commands. You'll need to replace the placeholder values (like `SOURCE_SYMBOL_FILE`, `DYNATRACE_SYMBOL_FILE`, etc.) with your actual values.
+
+Also, be aware that running shell commands through Python can be a security risk if not handled properly, especially if any of the inputs are user-controlled. Make sure to sanitize any user inputs if you modify this code to accept them.
+
+Would you like me to explain any part of this code in more detail?​​​​​​​​​​​​​​​​
