@@ -1,4 +1,8 @@
-To call a shell command in Python using subprocess, especially for a complex command like the one shown in your image, you can use the `subprocess.run()` function with the `shell=True` parameter. Here's how you can rewrite the `select_xcode` function to use subprocess:
+The error message in the image indicates that there's an issue with the file or command being executed. Specifically, it says:
+
+"grep DTXplatformBuild: file does not exist or is not readable or is not a regular file (Error Domain=NSCocoaErrorDomain Code=260 "The file "grep DTXplatformBuild" doesn't exist.")"
+
+This error suggests that the command is trying to treat "grep DTXplatformBuild" as a file name rather than a command. This is likely due to how the command is being executed in the script. Let's modify the `select_xcode` function to address this issue:
 
 
 
@@ -8,18 +12,29 @@ import os
 
 def select_xcode(self):
     IOS_CLIENT_VERSION = os.environ.get('IOS_CLIENT_VERSION', '')  # Get from environment variable
-    command = f"""plutil -p \
-        build/Dynatrace/{IOS_CLIENT_VERSION}/ios/agent/Dynatrace.framework/Info.plist | \
-        grep DTXplatformBuild | \
-        sed 's/.*>(.*)<.*/\\1/'"""
+    plist_path = f"build/Dynatrace/{IOS_CLIENT_VERSION}/ios/agent/Dynatrace.framework/Info.plist"
     
+    if not os.path.exists(plist_path):
+        print(f"Error: The file {plist_path} does not exist.")
+        return None
+
     try:
-        result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
-        DYNATRACE_XCODE = result.stdout.strip()
-        print(f"{{DYNATRACE_XCODE}}")
-        return DYNATRACE_XCODE
+        # Run plutil command
+        plutil_cmd = ["plutil", "-p", plist_path]
+        plutil_output = subprocess.run(plutil_cmd, check=True, capture_output=True, text=True).stdout
+
+        # Use Python to process the output
+        for line in plutil_output.splitlines():
+            if "DTXplatformBuild" in line:
+                DYNATRACE_XCODE = line.split('"')[-2]  # Extract the value
+                print(f"{{DYNATRACE_XCODE}}")
+                return DYNATRACE_XCODE
+
+        print("DTXplatformBuild not found in the plist file.")
+        return None
+
     except subprocess.CalledProcessError as e:
-        print(f"Error executing command: {e}")
+        print(f"Error executing plutil command: {e}")
         return None
 
 # Example usage
@@ -32,21 +47,11 @@ if __name__ == "__main__":
 
 ```
 
-This Python script does the following:
+This updated version addresses several potential issues:
 
-1. It imports the necessary modules: `subprocess` for running shell commands and `os` for accessing environment variables.
-
-2. The `select_xcode` function is defined to replicate the shell command in Python.
-
-3. It uses `os.environ.get()` to retrieve the `IOS_CLIENT_VERSION` from environment variables. You should set this variable before running the script.
-
-4. The shell command is constructed as a multi-line string for better readability.
-
-5. `subprocess.run()` is used with `shell=True` to execute the complex shell command. The `check=True` parameter raises an exception if the command fails, `capture_output=True` captures the output, and `text=True` returns the output as a string.
-
-6. The output is stripped of whitespace and stored in `DYNATRACE_XCODE`.
-
-7. Error handling is implemented using a try-except block to catch and report any `subprocess.CalledProcessError`.
+1. It checks if the plist file exists before trying to read it.
+2. It uses `subprocess.run()` to execute only the `plutil` command, which is safer and less prone to shell interpretation errors.
+3. Instead of using `grep` and `sed` in a shell command, it processes the output in Python, which gives us more control and better error handling.
 
 To use this script:
 
@@ -60,6 +65,10 @@ To use this script:
    python select_xcode.py
    ```
 
-This approach allows you to run the complex shell command within Python while maintaining its structure and functionality. It's more robust than using `os.system()` as it provides better error handling and output capture capabilities.
+This approach should resolve the error you're seeing and provide a more robust way to extract the DTXplatformBuild value from the plist file. If you're still encountering issues, please make sure:
 
-Would you like me to explain any part of this implementation in more detail?​​​​​​​​​​​​​​​​
+1. The `IOS_CLIENT_VERSION` environment variable is set correctly.
+2. The plist file exists at the expected path.
+3. You have the necessary permissions to read the file.
+
+Let me know if you need any further assistance or explanations!​​​​​​​​​​​​​​​​ke me to explain any part of this implementation in more detail?​​​​​​​​​​​​​​​​
