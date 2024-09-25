@@ -1,0 +1,34 @@
+Here is the content from the image converted into a checklist format:
+
+---
+
+### GitHub Migration Checklist
+
+- [ ] **Obtain the Distribution List:**
+  - Get the list of members from the AD (Active Directory) group.
+
+- [ ] **Simulate YAKK:**
+  - Simulate the YAKK process.
+  - Parse the output commit to validate the JIRA tickets.
+
+---
+
+### Repositories Already Migrated:
+
+- [ ] `td-ca-ion-banking`
+- [ ] `td-ca-android-banking`
+
+---
+
+### Prerequisites:
+
+- [ ] Release Notes
+- [ ] Jira Validation (YAKK)
+- [ ] Reusable Workflows (Build metrics collector)
+- [ ] Danger
+- [ ] Mobile-Gems
+- [ ] Cascading Merges
+
+---
+
+Let me know if you'd like further adjustments!
