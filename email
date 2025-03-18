@@ -1,0 +1,32 @@
+Here’s a professional yet concise email for notifying impacted teams about the migration:
+
+⸻
+
+Subject: Migration of Foundation Repositories from Bitbucket to GitHub Actions
+
+Hi Team,
+
+As part of our ongoing efforts to improve our CI/CD workflows, we are migrating our foundation repositories from Bitbucket to GitHub Actions. This transition will help streamline our automation, improve maintainability, and align with our broader DevOps strategy.
+
+Key Details:
+	•	Migration Timeline: [Insert timeframe]
+	•	Repositories Impacted: [List or link to impacted repos]
+	•	Expected Changes:
+	•	CI/CD pipelines will now run on GitHub Actions.
+	•	Some workflow adjustments may be required.
+	•	[Mention any expected downtime or disruptions, if applicable.]
+
+Next Steps:
+	•	Teams should review their workflows to ensure compatibility.
+	•	Documentation and support will be available at [insert link].
+	•	If you have any dependencies on these repos, please reach out to us to discuss potential impacts.
+
+We will provide further updates as we progress. If you have any concerns or need assistance, please feel free to contact [your team/contact person].
+
+Thanks,
+[Your Name]
+[Your Team/Organization]
+
+⸻
+
+Let me know if you’d like any adjustments!
