@@ -1,32 +1,27 @@
-Here’s a professional yet concise email for notifying impacted teams about the migration:
+当然可以 👍 下面是一封你可以直接发给其他团队介绍 Dynatrace Upload Automation 的英文邮件草稿，语气专业、简洁，适合在工作环境使用：
 
 ⸻
 
-Subject: Migration of Foundation Repositories from Bitbucket to GitHub Actions
+Subject: Introduction to Dynatrace Upload Automation
 
 Hi Team,
 
-As part of our ongoing efforts to improve our CI/CD workflows, we are migrating our foundation repositories from Bitbucket to GitHub Actions. This transition will help streamline our automation, improve maintainability, and align with our broader DevOps strategy.
+I’d like to share an update regarding the new Dynatrace Upload Automation we’ve implemented.
 
-Key Details:
-	•	Migration Timeline: [Insert timeframe]
-	•	Repositories Impacted: [List or link to impacted repos]
-	•	Expected Changes:
-	•	CI/CD pipelines will now run on GitHub Actions.
-	•	Some workflow adjustments may be required.
-	•	[Mention any expected downtime or disruptions, if applicable.]
+This automation simplifies and standardizes the process of uploading Android mapping files to Dynatrace. Instead of manually fetching artifacts and performing uploads, the new Python-based tool handles everything automatically — including:
+	•	Fetching the correct artifact version from Nexus
+	•	Extracting metadata dynamically (e.g., environment, version, build ID)
+	•	Determining the correct Dynatrace environment (dev, pat, prod, etc.) based on metadata
+	•	Uploading mapping files securely to the corresponding Dynatrace instance
 
-Next Steps:
-	•	Teams should review their workflows to ensure compatibility.
-	•	Documentation and support will be available at [insert link].
-	•	If you have any dependencies on these repos, please reach out to us to discuss potential impacts.
+The script is designed to be easily integrated into existing CI/CD pipelines (e.g., Azure DevOps or Jenkins) and only requires minimal configuration.
 
-We will provide further updates as we progress. If you have any concerns or need assistance, please feel free to contact [your team/contact person].
+If your team is interested in adopting or testing this automation, please let me know — I can provide setup guidance and an example Fastfile integration for Android builds.
 
-Thanks,
+Best regards,
 [Your Name]
-[Your Team/Organization]
+[Your Team or Department]
 
 ⸻
 
-Let me know if you’d like any adjustments!
+是否希望我帮你再写一个中文版版本（比如用于内部介绍或项目文档）？
