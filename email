@@ -1,27 +1,51 @@
-当然可以 👍 下面是一封你可以直接发给其他团队介绍 Dynatrace Upload Automation 的英文邮件草稿，语气专业、简洁，适合在工作环境使用：
+当然可以 👍 下面是一封根据 Alex 要求撰写的英文邮件草稿，内容涵盖 TDI 团队相关工作（包括 mac server、Android SDK、support requests、OS upgrades、cert management 等），语气专业、结构清晰，适合发给主管和高层审阅：
 
 ⸻
 
-Subject: Introduction to Dynatrace Upload Automation
+Subject: Summary of TDI-Related Work and Responsibilities
 
-Hi Team,
+Hi Alex,
 
-I’d like to share an update regarding the new Dynatrace Upload Automation we’ve implemented.
+Please find below a summary of the work our team currently handles and is expected to support for TDI.
 
-This automation simplifies and standardizes the process of uploading Android mapping files to Dynatrace. Instead of manually fetching artifacts and performing uploads, the new Python-based tool handles everything automatically — including:
-	•	Fetching the correct artifact version from Nexus
-	•	Extracting metadata dynamically (e.g., environment, version, build ID)
-	•	Determining the correct Dynatrace environment (dev, pat, prod, etc.) based on metadata
-	•	Uploading mapping files securely to the corresponding Dynatrace instance
+⸻
 
-The script is designed to be easily integrated into existing CI/CD pipelines (e.g., Azure DevOps or Jenkins) and only requires minimal configuration.
+1. Mac Server Management
+	•	Maintain and monitor macOS build servers for CI/CD pipeline stability.
+	•	Perform periodic OS and Xcode upgrades to ensure compatibility with Android and iOS SDKs.
+	•	Manage user access, system health, and backup procedures.
 
-If your team is interested in adopting or testing this automation, please let me know — I can provide setup guidance and an example Fastfile integration for Android builds.
+2. Android SDK and Build Environment
+	•	Maintain Android SDK, Gradle, and related build tools on mac servers.
+	•	Validate SDK updates and dependencies to ensure compatibility with existing build pipelines.
+	•	Support build automation and release process improvements.
+
+3. Certificate and Credential Management
+	•	Handle signing certificates, provisioning profiles, and keychain configurations.
+	•	Monitor certificate expiration and perform timely renewals.
+	•	Ensure secure credential handling across build environments.
+
+4. OS and Tool Upgrades
+	•	Plan and execute regular OS, SDK, and toolchain upgrades to align with organizational compliance and platform requirements.
+	•	Conduct validation testing post-upgrade to minimize disruption to build pipelines.
+
+5. Support and Maintenance
+	•	Respond to support requests from development and QA teams related to build failures, environment issues, or access needs.
+	•	Provide technical troubleshooting and documentation.
+	•	Collaborate with IT and InfoSec for policy compliance and security hardening.
+
+6. Continuous Improvement and Automation
+	•	Develop and maintain automation tools (e.g., Nexus clean-up, Dynatrace upload automation).
+	•	Streamline repetitive manual steps within the CI/CD workflow to improve reliability and efficiency.
+
+⸻
+
+Please let me know if you’d like me to expand on any section or include specific metrics or timelines.
+Once finalized, I can review this with Haifeng and Angel before submission to the execs.
 
 Best regards,
-[Your Name]
-[Your Team or Department]
+Fei Wang
 
 ⸻
 
-是否希望我帮你再写一个中文版版本（比如用于内部介绍或项目文档）？
+是否希望我帮你再写一个简短一点、适合放在 Teams 回复或摘要版本的？（例如给 Alex 初步预览用）
